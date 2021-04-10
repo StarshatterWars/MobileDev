@@ -10,16 +10,10 @@ public class MainMenuUI : MonoBehaviour
     public GameObject goButton;
 
     public GameObject nameFieldInput;
+    public GameObject currentName;
     public TMP_Text m_TextComponent;
-    
-    //private GameController gcScript;
 
     public string playerName;
-
-    public void Awake()
-    {
-        //gcScript = GameObject.Find("Game Controller").GetComponent<GameController>();
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +30,7 @@ public class MainMenuUI : MonoBehaviour
     public void SetInputOn()
     {
         nameFieldInput.SetActive(true);
+        currentName.GetComponent<CurrentNameUI>().SetName();
     }
 
     public void SetInputOff()

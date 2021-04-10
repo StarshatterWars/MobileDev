@@ -7,6 +7,13 @@ public class ObstacleBehaviour : MonoBehaviour
     [Tooltip("How long to wait before restarting the game")]
     public float waitTime = 2.0f;
 
+    public GameController gcScript;
+
+    public void Awake()
+    {
+        gcScript = GameObject.Find("Game Controller").GetComponent<GameController>();
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         // First check if we collided with the player 
@@ -25,6 +32,7 @@ public class ObstacleBehaviour : MonoBehaviour
     /// </summary> 
     void ResetGame()
     {
+        gcScript.UpdateMaxScore();
         // Restarts the current level 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

@@ -37,6 +37,7 @@ public class GameController : MonoBehaviour
 
     public string playerName;
     public int playerDistance;
+    public int playerMaxDistance;
 
     private bool playerSet;
     public bool gameStart;
@@ -57,6 +58,18 @@ public class GameController : MonoBehaviour
     /// </summary>
     void Start()
     {
+        RestartLevel();
+
+        playerSet = false;
+        nameSet = false;
+        gameStart = false;
+       
+    }
+
+    public void RestartLevel()
+    {
+        playerName = PlayerPrefs.GetString("PlayerName");
+        playerMaxDistance = PlayerPrefs.GetInt("PlayerDistance");
         // Set our starting point 
         nextTileLocation = startPoint;
         nextTileRotation = Quaternion.identity;
@@ -65,16 +78,13 @@ public class GameController : MonoBehaviour
         {
             SpawnNextTile(i >= initNoObstacles);
         }
-
-        playerSet = false;
-        nameSet = false;
-        gameStart = false;
-        playerName = PlayerPrefs.GetString("PlayerName");
+        playerDistance = 0;
+        speedIncrease = 0;
     }
+
 
     void GameInit()
     {
-
         playerDistance = 0;
         speedIncrease = 0;
     }
@@ -158,5 +168,14 @@ public class GameController : MonoBehaviour
         nameSet = false;
         camScript.target = playerObj.transform;
         gameStart = true;
+    }
+
+    public void UpdateMaxScore()
+    {
+        if(playerDistance > playerMaxDistance)
+        {
+            playerMaxDistance = playerDistance;
+            PlayerPrefs.SetInt("PlayerDistance", playerMaxDistance);
+        }
     }
 }

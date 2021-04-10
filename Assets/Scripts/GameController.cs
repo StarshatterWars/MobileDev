@@ -69,10 +69,12 @@ public class GameController : MonoBehaviour
         playerSet = false;
         nameSet = false;
         gameStart = false;
+        playerName = PlayerPrefs.GetString("PlayerName");
     }
 
     void GameInit()
     {
+
         playerDistance = 0;
         speedIncrease = 0;
     }

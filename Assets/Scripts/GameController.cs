@@ -40,6 +40,7 @@ public class GameController : MonoBehaviour
 
     private bool playerSet;
     public bool gameStart;
+    public float speedIncrease;
 
     public GameObject mainCamera;
     private CameraBehaviour camScript;
@@ -73,6 +74,7 @@ public class GameController : MonoBehaviour
     void GameInit()
     {
         playerDistance = 0;
+        speedIncrease = 0;
     }
 
     /// <summary>
@@ -142,7 +144,8 @@ public class GameController : MonoBehaviour
         if(playerObj.transform.position.z > 0)
         {
             playerDistance = (int)playerObj.transform.position.z;
-        } 
+        }
+        speedIncrease = playerObj.transform.position.z / 10;
     }
 
     private void MakePlayer()

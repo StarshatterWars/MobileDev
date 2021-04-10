@@ -35,6 +35,15 @@ public class PlayerBehaviour : MonoBehaviour
     ///</summary>
     private Vector2 touchStart;
 
+    private float horizontalSpeed;
+    public float totalSpeed;
+    public GameController gcScript;
+
+    public void Awake()
+    {
+        gcScript = GameObject.Find("Game Controller").GetComponent<GameController>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,12 +62,12 @@ public class PlayerBehaviour : MonoBehaviour
         // Check if we are running on a mobile device 
         #if UNITY_IOS || UNITY_ANDROID
         // Check if Input has registered more than zero touches 
-        if (Input.touchCount> 0)
+        /*if (Input.touchCount> 0)
         {
             //Store the first touch detected. 
             Touch touch =Input.touches[0];
             SwipeTeleport(touch);
-        }
+        }*/
     #endif
     }
 
@@ -69,22 +78,21 @@ public class PlayerBehaviour : MonoBehaviour
     private void FixedUpdate()
     {
         // Check if we're moving to the side
-        var horizontalSpeed = Input.GetAxis("Horizontal") * dodgeSpeed;
         // Check if we are running either in the Unity Editor or in a
         // stand-alone build.
-        #if UNITY_STANDALONE || UNITY_WEBPLAYER || UNITY_EDITOR
-            
-            // Check if we're moving to the side
-            horizontalSpeed = Input.GetAxis("Horizontal") * dodgeSpeed;
-            
-            // If the mouse is held down(or the screen is tapped on Mobile)
-            if (Input.GetMouseButton(0))
-            {
-                horizontalSpeed = CalculateMovement(Input.mousePosition);
-            }
-            
-            // Check if we are running on a mobile device 
-        #elif UNITY_IOS || UNITY_ANDROID
+#if UNITY_STANDALONE || UNITY_WEBPLAYER || UNITY_EDITOR
+
+        // Check if we're moving to the side
+
+
+        // If the mouse is held down(or the screen is tapped on Mobile)
+        if (Input.GetMouseButton(0))
+        {
+            horizontalSpeed = CalculateMovement(Input.mousePosition);
+        }
+
+        // Check if we are running on a mobile device 
+#elif UNITY_IOS || UNITY_ANDROID
             //Check if Input has registered more than zero touches
             if (Input.touchCount > 0)
             {
@@ -92,8 +100,9 @@ public class PlayerBehaviour : MonoBehaviour
                 Touch touch = Input.touches[0];
                 horizontalSpeed = CalculateMovement(touch.position);
             }
-        #endif
-        rb.AddForce(horizontalSpeed, 0, rollSpeed);
+#endif
+        totalSpeed = rollSpeed + gcScript.speedIncrease;
+        rb.AddForce(horizontalSpeed, 0, totalSpeed);
         //Debug.LogError(rb.velocity);
     }
 
@@ -112,7 +121,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (worldPos.x < 0.5f)
         {
-            xMove=-1;
+            xMove= -1;
         }
         else
         {

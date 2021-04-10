@@ -126,6 +126,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dodgeSpeed: 5
-  rollSpeed: 6
-  swipeMove: 0
-  minSwipeDistance: 0
+  rollSpeed: 4.47
+  swipeMove: 5
+  minSwipeDistance: 0.5

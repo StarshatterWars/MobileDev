@@ -35,10 +35,16 @@ public class GameController : MonoBehaviour
     private GameObject playerObj;
     public Vector3 playerLoc;
 
+    public string playerName;
+    public int playerDistance;
+
     private bool playerSet;
+    public bool gameStart;
 
     public GameObject mainCamera;
     private CameraBehaviour camScript;
+
+    public bool nameSet;
 
     private void Awake()
     {
@@ -60,8 +66,14 @@ public class GameController : MonoBehaviour
         }
 
         playerSet = false;
+        nameSet = false;
+        gameStart = false;
     }
 
+    void GameInit()
+    {
+        playerDistance = 0;
+    }
 
     /// <summary>
     /// Will spawn a tile at a certain location and setup the next position 
@@ -125,6 +137,12 @@ public class GameController : MonoBehaviour
     {
         if (!playerSet)
             MakePlayer();
+        if (playerObj == null)
+            return;
+        if(playerObj.transform.position.z > 0)
+        {
+            playerDistance = (int)playerObj.transform.position.z;
+        } 
     }
 
     private void MakePlayer()
@@ -132,6 +150,8 @@ public class GameController : MonoBehaviour
         playerObj = Instantiate(playerPrefab, playerLoc, Quaternion.identity) as GameObject;
         playerObj.name = "Player";
         playerSet = true;
+        nameSet = false;
         camScript.target = playerObj.transform;
+        gameStart = true;
     }
 }
